@@ -1,0 +1,25 @@
+{
+  "name": "reunx",
+  "description": "",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "dependencies": {
+    "react": "^16.11.0"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
+  },
+  "scripts": {
+    "build": "parcel build src/index.jsx"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahabhgk/reunx.git"
+  },
+  "author": "ahabhgk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ahabhgk/reunx/issues"
+  },
+  "homepage": "https://github.com/ahabhgk/reunx#readme"
+}
