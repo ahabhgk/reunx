@@ -1,9 +1,9 @@
 import React, { createContext, useContext } from 'react'
 
-const createX = (useHook) => {
+const createX = (useHook, initialState) => {
   const Context = createContext(null)
 
-  const Provider = ({ initialState, children }) => {
+  const Provider = ({ children }) => {
     const value = useHook(initialState)
 
     return (
@@ -19,12 +19,12 @@ const createX = (useHook) => {
 const useX = (x) => useContext(x.Context)
 
 const combineX = (xs) => xs.reduce(
-  (CurrentX, NextX) => ({ children }) => (
-    <NextX.Provider>
-      <CurrentX.Provider>
+  (Acc, Cur) => ({ children }) => (
+    <Cur.Provider>
+      <Acc.Provider>
         {children}
-      </CurrentX.Provider>
-    </NextX.Provider>
+      </Acc.Provider>
+    </Cur.Provider>
   )
 )
 
