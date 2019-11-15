@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react'
+import { createContext, useContext, createElement as h } from 'react'
 
 const createX = (useHook, initialState) => {
   const Context = createContext(null)
@@ -6,10 +6,10 @@ const createX = (useHook, initialState) => {
   const Provider = ({ children }) => {
     const value = useHook(initialState)
 
-    return (
-      <Context.Provider value={value}>
-        {children}
-      </Context.Provider>
+    return h(
+      Context.Provider,
+      { value },
+      children,
     )
   }
 
@@ -19,12 +19,10 @@ const createX = (useHook, initialState) => {
 const useX = (x) => useContext(x.Context)
 
 const combineX = (...xs) => xs.reduce(
-  (Acc, Cur) => ({ children }) => (
-    <Cur.Provider>
-      <Acc.Provider>
-        {children}
-      </Acc.Provider>
-    </Cur.Provider>
+  (Acc, Cur) => ({ children }) => h(
+    Cur.Provider,
+    null,
+    h(Acc.Provider, null, children)
   )
 )
 
