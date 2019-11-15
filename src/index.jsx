@@ -18,7 +18,7 @@ const createX = (useHook, initialState) => {
 
 const useX = (x) => useContext(x.Context)
 
-const combineX = (xs) => xs.reduce(
+const combineX = (...xs) => xs.reduce(
   (Acc, Cur) => ({ children }) => (
     <Cur.Provider>
       <Acc.Provider>
