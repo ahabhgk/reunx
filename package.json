@@ -14,7 +14,7 @@
     "rollup-plugin-uglify": "^6.0.3"
   },
   "scripts": {
-    "build": "parcel build src/index.jsx"
+    "build": "npx rollup -c"
   },
   "repository": {
     "type": "git",
