@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { createX, useX, combineX } from 'reunx'
+import { createX, useX, combineX } from '../src/index'
 
 const useCounter = (initialState = 0) => {
   const [count, setCount] = useState(initialState)
