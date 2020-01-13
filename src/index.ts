@@ -1,9 +1,18 @@
 import { createContext, useContext, createElement as h } from 'react'
 
-const createX = (useHook, ...initialArgs) => {
+interface IProvider {
+  (props: React.Props<any>): any
+}
+
+interface IX {
+  Provider: IProvider
+  Context: React.Context<any>
+}
+
+const createX = (useHook, ...initialArgs): IX => {
   const Context = createContext(null)
 
-  const Provider = ({ children }) => {
+  const Provider: IProvider = ({ children }) => {
     const value = useHook(...initialArgs)
 
     return h(
@@ -16,7 +25,7 @@ const createX = (useHook, ...initialArgs) => {
   return { Provider, Context }
 }
 
-const useX = (x) => useContext(x.Context)
+const useX = (x: IX) => useContext(x.Context)
 
 const combineX = (...xs) => xs.reduce(
   (Acc, Cur) => ({ children }) => h(
