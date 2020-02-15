@@ -5,10 +5,11 @@ type X<T> = {
   Context: React.Context<T>
 }
 
-const createX = <T extends unknown>(
-  useHook: (...args: T[]) => any,
-  ...initialArgs: T[]
-): X<T> => {
+function createX<T extends unknown>(useHook: (...args: unknown[]) => T): X<T>
+function createX<T extends unknown>(
+  useHook: (...args: unknown[]) => T,
+  ...initialArgs: unknown[]
+): X<T> {
   const Context = createContext<T>(null as any)
 
   const Provider: React.FC = ({ children }) => {
@@ -26,7 +27,7 @@ const createX = <T extends unknown>(
 
 const useX = <T extends unknown>(x: X<T>) => useContext(x.Context)
 
-const combineProvider = (...Providers: React.FC[]): React.FC => Providers.reduce(
+const combineProviders = (...Providers: React.FC[]): React.FC => Providers.reduce(
   (Acc, Cur) => ({ children }) => (
     <Acc>
       <Cur>
@@ -36,4 +37,4 @@ const combineProvider = (...Providers: React.FC[]): React.FC => Providers.reduce
   )
 )
 
-export { createX, useX, combineProvider }
+export { createX, useX, combineProviders }

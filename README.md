@@ -1,10 +1,42 @@
 # reunx
 
+🐧Hooks as store.
+
+## APIs
+
+> A well-designed library whose APIs must be elegant and simple enough.
+
+This library only exposes three functions: `createX`, `useX`, `combineProviders`.
+
+`createX` is used to create a ‘X’ object, which contain a react context and a provider:
+
+```ts
+type X<T> = {
+  Provider: React.FC
+  Context: React.Context<T>
+}
+```
+
+the X object can be consumed by useX:
+
+```ts
+const CounterX = createX(useCounter) // useCounter is a react hook
+const { count, decrement, increment } = useX(CounterX)
+```
+
+To avoid multiple levels of nesting of providers, you can use `combineProviders` to combine lots of providers as one provider, and use `useX(Xobject)` or `useContext(Xobject.Context)` to get the specific context
+
+```ts
+const Provider = combineProviders(CounterX.Provider, TimerX.Provider)
+```
+
+Full support for TypeScript!
+
 ## examples
 
 ```jsx
 import React, { useState, useEffect, useCallback } from 'react'
-import { createX, useX, combineX } from '../src/index'
+import { createX, useX, combineProviders } from '../src/index'
 
 const useCounter = (initialState = 0) => {
   const [count, setCount] = useState(initialState)
@@ -52,7 +84,7 @@ const Timer = () => {
   return <div>timer: {time}</div>
 }
 
-const Provider = combineX(CounterX, TimerX)
+const Provider = combineProviders(CounterX.Provider, TimerX.Provider)
 
 const App = () => (
   <Provider>
@@ -60,106 +92,6 @@ const App = () => (
     <Timer />
     <Counter />
     <Timer />
-  </Provider>
-)
-```
-
-```jsx
-import React, { useReducer } from 'react'
-import { createX, useX } from '../src/index'
-
-const initialState = {
-  count: 0,
-}
-
-const counterReducer = (state, action) => {
-  switch (action.type) {
-    case 'increament':
-      return { count: state.count + 1 }
-    case 'decreament':
-      return { count: state.count - 1 }
-    default:
-      return state
-  }
-}
-
-const CounterX = createX(useReducer, counterReducer, initialState)
-
-const { Provider } = CounterX
-
-const CounterDisplay = () => {
-  const [{ count }] = useX(CounterX)
-
-  return <div>count: {count}</div>
-}
-
-const CounterButton = () => {
-  const [, dispatch] = useX(CounterX)
-
-  return (
-    <div>
-      <button onClick={() => dispatch({ type: 'increament' })}>+</button>
-      <button onClick={() => dispatch({ type: 'decreament' })}>-</button>
-    </div>
-  )
-}
-
-const App = () => (
-  <Provider>
-    <CounterDisplay />
-    <CounterButton />
-  </Provider>
-)
-```
-
-```jsx
-import React, { useReducer, useCallback } from 'react'
-import { createX, useX } from '../src/index'
-
-const useCounter = (initialState = { count: 0 }) => {
-  const counterReducer = (state, action) => {
-    switch (action.type) {
-      case 'increament':
-        return { count: state.count + 1 }
-      case 'decreament':
-        return { count: state.count - 1 }
-      default:
-        return state
-    }
-  }
-
-  const [{ count }, dispatch] = useReducer(counterReducer, initialState)
-  const increace = useCallback(() => dispatch({ type: 'increament' }), [])
-  const decreace = useCallback(() => dispatch({ type: 'decreament' }), [])
-
-  return { count, increace, decreace }
-}
-
-const CounterX = createX(useCounter)
-
-const { Provider } = CounterX
-
-const CounterDisplay = () => {
-  const { count } = useX(CounterX)
-
-  return <div>count: {count}</div>
-}
-
-const CounterButton = () => {
-  const { increace, decreace } = useX(CounterX)
-
-  return (
-    <div>
-      <button onClick={increace}>+</button>
-      <button onClick={decreace}>-</button>
-    </div>
-  )
-}
-
-const App = () => (
-  <Provider>
-    <CounterDisplay />
-    <CounterButton />
   </Provider>
 )
 ```

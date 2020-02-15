@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { createX, useX, combineX } from '../src/index'
+import { createX, useX, combineProviders } from '../../src/index'
 
 const useCounter = (initialState = 0) => {
   const [count, setCount] = useState(initialState)
@@ -47,7 +47,7 @@ const Timer = () => {
   return <div>timer: {time}</div>
 }
 
-const Provider = combineX(CounterX, TimerX)
+const Provider = combineProviders(CounterX.Provider, TimerX.Provider)
 
 const App = () => (
   <Provider>
