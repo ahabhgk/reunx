@@ -3,7 +3,7 @@ name: reunx
 on:
   push:
     branches:
-      - releases
+      - master
 
 jobs:
   build:
