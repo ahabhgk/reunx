@@ -17,7 +17,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var react_1 = __importStar(require("react"));
-    var createX = function (useHook) {
+    function createX(useHook) {
         var initialArgs = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             initialArgs[_i - 1] = arguments[_i];
@@ -29,11 +29,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
             return (react_1.default.createElement(Context.Provider, { value: value }, children));
         };
         return { Provider: Provider, Context: Context };
-    };
+    }
     exports.createX = createX;
     var useX = function (x) { return react_1.useContext(x.Context); };
     exports.useX = useX;
-    var combineProvider = function () {
+    var combineProviders = function () {
         var Providers = [];
         for (var _i = 0; _i < arguments.length; _i++) {
             Providers[_i] = arguments[_i];
@@ -44,5 +44,5 @@ var __importStar = (this && this.__importStar) || function (mod) {
                 react_1.default.createElement(Cur, null, children)));
         }; });
     };
-    exports.combineProvider = combineProvider;
+    exports.combineProviders = combineProviders;
 });
